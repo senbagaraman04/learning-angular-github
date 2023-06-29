@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+#!/bin/sh
+#
+# Check for valid commit message format
+#
+
+commit_msg_file=$1
+
+commit_msg=`cat $commit_msg_file`
+
+regex='^(fix|feat|docs|style|refactor|perf|test|chore)(\([a-z]+\))?: #[0-9]+ .{1,50}$'
+
+if ! [[ $commit_msg =~ $regex ]]; then
+    echo "Aborting commit. Your commit message is missing either a type or a ticket number or is too long."
+    exit 1
+fi
+
