@@ -10,7 +10,21 @@ commit_msg_file=$1
 
 commit_msg=`cat $commit_msg_file`
 
+# Regex for commit syntax (ref: conventional commit)
 regex='^(fix|feat|docs|style|refactor|perf|test|chore)(\([a-z]+\))?: #[0-9]+ .{1,50}$'
+
+# Here’s what each part of the regular expression means:
+
+# ^ matches the start of the string.
+# (fix|feat|docs|style|refactor|perf|test|chore) matches one of the commit types.
+# (\([a-z]+\))? matches an optional scope enclosed in parentheses.
+# :  matches a colon and a space.
+# #[0-9]+ matches a ticket number in the format #2345.
+#  matches a space.
+# .{1,50} matches a commit message up to 50 characters long.
+
+
+# If any of this condition is not met, then throw an error.
 
 if ! [[ $commit_msg =~ $regex ]]; then
     echo "Aborting commit. Your commit message is missing either a type or a ticket number or is too long."
