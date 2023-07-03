@@ -38,3 +38,19 @@ The following commit will works
 The following commits will fails 
 
 ``` git commit -m "changes related to dashboard api" ```
+
+## Branching Strategy
+We can also enforce the same for branching strategy,
+
+```
+ #!/bin/sh
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+REGEX="^(develop|master|release|((feature|bigfeature|task|bugfix|hotfix)\/[A-Z]+-[0-9]+_[A-Z]+_.+))$"
+
+if ! [[ $BRANCH =~ $REGEX ]]; then
+  echo "Your commit was rejected due to branching name"
+  echo "Please rename your branch with $REGEX syntax"
+  exit 1
+fi
+```
